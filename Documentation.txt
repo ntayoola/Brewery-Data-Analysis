@@ -1,0 +1,164 @@
+﻿Overview
+This documentation provides a detailed account of the steps undertaken to analyze the brewery dataset and create an interactive dashboard in Tableau. The project included data cleaning, exploratory data analysis, visualization, and the creation of an interactive Tableau dashboard to provide insights into the breIry's operations. The objective was to analyze various aspects of brewery operations including sales, production, quality, and losses, and to identify key insights and trends that can help improve efficiency and profitability.
+
+
+Loading and Initial Cleaning
+Started by loading the dataset "breIry_data_complete_extended.csv" into jupyter lab and did imports as necessary. The dataset includes various metrics such as Brew Date, Beer Style, Location, Fermentation Time, Temperature, pH Level, Gravity, Alcohol Content, Bitterness, Color, Ingredient Ratio, Volume Produced, Total Sales, Quality Score, Brewhouse Efficiency, and different types of losses.
+
+
+I converted the Brew_Date column to datetime format to facilitate time-based analysis. Handling missing and infinite values was a crucial step in ensuring the data's integrity. Rows with infinite values were replaced with NaN and then dropped to avoid skewing the analysis.
+
+
+Python code:
+# Load the dataset
+df = pd.read_csv("breIry_data_complete_extended.csv")
+
+
+# Convert Brew_Date to datetime
+df['Brew_Date'] = pd.to_datetime(df['Brew_Date'])
+
+
+# Drop rows containing infinite values
+df.replace([np.inf, -np.inf], np.nan, inplace=True)
+df.dropna(inplace=True)
+
+
+Sampling
+Given the dataset's size, processing and visualization were computationally expensive and could lead to performance issues. To address this, I sampled 1000 data points for visualization purposes. This allowed me to work with a manageable subset while still maintaining the data's representativeness.
+
+
+# Sample 1000 data points for visualization
+df_sample = df.sample(n=1000, random_state=1)
+Exploratory Data Analysis (EDA)
+Total Sales Over Time
+To understand the trends in total sales over time, I resampled the data by month. This helped reduce the number of points and made the trends more visible. A line chart was created to show the total sales trend over time.
+
+
+# Resample data by month to reduce the number of points
+df_sample.set_index('Brew_Date', inplace=True)
+df_resampled = df_sample['Total_Sales'].resample('M').sum()
+
+
+# Plot Total Sales over Time
+plt.figure(figsize=(12, 6))
+plt.plot(df_resampled.index, df_resampled.values, marker='o')
+plt.title('Total Sales Over Time')
+plt.xlabel('Date')
+plt.ylabel('Total Sales')
+plt.grid(True)
+plt.show()
+Insight: The analysis revealed significant peaks in total sales during certain periods, with notable dips in February due to seasonal factors like holiday cutdowns and New Year's resolutions. Recommendation: Increase marketing efforts and promotions during low sales periods to boost revenue.
+
+
+Quality Score by Beer Type
+I explored the variations in quality scores across different beer styles using a boxplot. This visualization helped me understand which beer styles maintained consistent quality and which ones had higher variability.
+
+
+# Boxplot of Quality Score by Beer Style
+plt.figure(figsize=(12, 6))
+sns.boxplot(x='Beer_Style', y='Quality_Score', data=df_sample)
+plt.title('Quality Score by Beer Style')
+plt.xlabel('Beer Style')
+plt.ylabel('Quality Score')
+plt.xticks(rotation=90)
+plt.show()
+Insight: Quality scores varied significantly by beer type. Recommendation: Focus on maintaining high quality for the most popular beer types to ensure customer satisfaction.
+
+
+Sales by Location
+I visualized total sales and volume produced by different locations using bar charts. This helped identify the best and worst performing locations.
+
+
+# Bar chart of Total Sales by Location
+plt.figure(figsize=(12, 6))
+sns.barplot(x='Location', y='Total_Sales', data=df_sample)
+plt.title('Total Sales by Location')
+plt.xlabel('Location')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=90)
+plt.show()
+
+
+# Bar chart of Volume Produced by Location
+plt.figure(figsize=(12, 6))
+sns.barplot(x='Location', y='Volume_Produced', data=df_sample)
+plt.title('Volume Produced by Location')
+plt.xlabel('Location')
+plt.ylabel('Volume Produced')
+plt.xticks(rotation=90)
+plt.show()
+Insight: Different locations shoId varying levels of performance in terms of total sales and volume produced. Recommendation: Invest in underperforming locations or consider restructuring to improve efficiency.
+
+
+Production Analysis
+To understand the production process better, I created scatter plots to explore the relationships between various production metrics such as pH Level, Fermentation Time, and Temperature.
+
+
+# Scatter plot of pH Level vs Fermentation Time
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x='pH_Level', y='Fermentation_Time', hue='Beer_Style', data=df_sample)
+plt.title('pH Level vs Fermentation Time')
+plt.xlabel('pH Level')
+plt.ylabel('Fermentation Time')
+plt.grid(True)
+plt.show()
+
+
+# Scatter plot of Temperature vs Fermentation Time
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x='Temperature', y='Fermentation_Time', hue='Beer_Style', data=df_sample)
+plt.title('Temperature vs Fermentation Time')
+plt.xlabel('Temperature')
+plt.ylabel('Fermentation Time')
+plt.grid(True)
+plt.show()
+Insight: The scatter plots highlighted the optimal ranges for pH Level and Temperature that correlated with efficient fermentation times. Recommendation: Maintain production parameters within these optimal ranges to ensure consistent quality and efficiency.
+
+
+Loss Analysis
+Created a calculated column for total losses by adding all categories of losses together.
+Created different charts to visualize the correlation between losses and key metrics such as Quality Score and Total Sales. This helped identify which types of losses had the most significant impact on sales and quality.
+
+
+# Correlation heatmap
+plt.figure(figsize=(12, 8))
+correlation_matrix = df_sample[['Loss_During_Brewing', 'Loss_During_Fermentation', 'Loss_During_Bottling', 'Total_Sales', 'Quality_Score']].corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Heatmap')
+plt.show()
+Insight: Losses during brewing, fermentation, and bottling shoId a negative correlation with total sales. Recommendation: Implement stricter quality control measures and optimize production processes to reduce losses.
+
+
+Key Findings and Recommendations
+Total Sales and Seasonal Trends:
+
+
+Significant peaks in sales during certain periods, with heavy dips in February.
+Since data is uniform and different factors correlate positively, I did outward research into possible reasons operationally
+Discovered things like weather factors, Holiday availability, scheduled maintenance, culture(Dry January, dry February)
+
+
+Quality scores vary significantly by beer type.
+Recommendation: Focus on maintaining high quality for the most popular beer types.
+Location Performance:
+
+
+Varying performance in total sales and volume produced across different locations.
+Recommendation: Invest in underperforming locations or consider restructuring.
+Losses During Production:
+
+
+No negative correlation between losses during production stages and total sales.
+Recommendation: Implement stricter quality control measures and optimize production processes.
+Interactive Dashboard in Tableau
+Dashboard Layout
+The interactive Tableau dashboard is organized into sections for loss and sales
+
+
+Conclusion
+The analysis shows that the total sales will always correlate with losses, productions, and quality score. Dips in performance should be addressed operationally since the sales will still be proportional to what is produced. If the operational factors can be addressed, then production can be more stabilized. Again these are just minor variations in metrics because on a large scale, the data shows uniformity.
+
+
+Next Steps
+Expand Analysis
+Work with the brewery management team to implement the recommendations derived from the analysis to enhance operational efficiency and profitability.
