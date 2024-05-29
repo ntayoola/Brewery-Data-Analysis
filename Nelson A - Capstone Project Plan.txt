@@ -1,0 +1,60 @@
+﻿Purpose
+Overarching Question:
+* How can we improve the efficiency and quality of beer production to maximize sales while minimizing losses?
+Hypothesis:
+* Higher efficiency in the brewing process and better quality scores are positively correlated with higher sales and lower production losses.
+Problem Statement:
+* The brewery is facing challenges in optimizing production efficiency and maintaining high-quality beer while keeping losses during brewing, fermentation, and bottling to a minimum. This analysis aims to identify key factors that influence these outcomes and provide actionable insights to improve overall performance.
+Objectives:
+* Identify factors that impact the efficiency and quality of beer production.
+* Determine the relationship between production efficiency, quality scores, and sales.
+* Develop strategies to minimize losses during different stages of production.
+Desired Outcomes:
+* Improved production processes.
+* Enhanced product quality.
+* Increased sales.
+* Reduced production losses.
+Data
+Primary Dataset:
+* Source: Brewery production data (CSV file: "brewery_data_complete_extended.csv")
+* https://www.kaggle.com/datasets/ankurnapa/brewery-operations-and-market-analysis-dataset
+Secondary Data:
+* Industry benchmarks for brewing efficiency and quality (URL: Industry Data)
+* Market trends in beer sales (URL: Market Data)
+Dataset Profile:
+* Size: 10,000,000+ records, 20 columns
+* Range: From 2020-2023 covering various stages of beer production.
+* Includes measures of central tendency and variability for key columns.
+Data Dictionary:
+* Columns: Batch_ID, Brew_Date, Beer_Style, SKU, Location, Fermentation_Time, Temperature, pH_Level, Gravity, Alcohol_Content, Bitterness, Color, Ingredient_Ratio, Volume_Produced, Total_Sales, Quality_Score, Brewhouse_Efficiency, Loss_During_Brewing, Loss_During_Fermentation, Loss_During_Bottling_Keggling.
+* Exclude: SKU (not relevant for analysis)
+
+
+Analysis
+Key Performance Indicators (KPIs):
+* Brewhouse Efficiency
+* Quality Score
+* Total Sales
+* Losses during Brewing, Fermentation, and Bottling
+Questions for Analysis:
+1. What is the relationship between brewhouse efficiency and total sales?
+2. How do quality scores impact total sales?
+3. Which stages of production contribute most to losses, and how do these losses affect overall sales?
+4. How do different beer styles perform in terms of efficiency, quality, and sales?
+5. What are the regional differences in production efficiency and sales?
+Process:
+* Clean and preprocess the data (Excel, Python)
+* Conduct exploratory data analysis (EDA) to identify patterns and correlations(Python, SQL)
+* Visualize data(Python, Tableau)
+* Perform statistical analyses to test hypotheses
+* Develop predictive models if needed(Python, Tableau)
+* Additional Calculations:
+* Calculate monthly averages for sales, efficiency, and quality scores.
+* Compute loss percentages for each stage of production.
+Validation:
+* Cross-validate models using a subset of the data.
+* Compare findings with industry benchmarks.
+Limitations and Assumptions:
+* Assumption: Data accurately represents production processes and outcomes.
+* Limitation: Missing data or inconsistencies may affect the analysis.
+* Assumption: External market factors are constant and do not significantly impact sales trends.
